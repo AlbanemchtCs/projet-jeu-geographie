@@ -39,8 +39,10 @@ class Quiz():
         
         #Ask current country's neighbors
         neighbors = import_neighbors_dataframe(self.current_country_id)
-        neighbors_kept = neighbors[~neighbors['country_name'].isin(self.validated_countries)]
-        
+        if(len(neighbors)>0):
+            neighbors_kept = neighbors[~neighbors['country_name'].isin(self.validated_countries)]
+        else:
+            neighbors_kept = neighbors
         # If there isn't other neighbor the quiz select a new random country
         if(len(neighbors_kept) == 0):
             sample = DATAFRAME_COUNTRIES[~DATAFRAME_COUNTRIES['country_name'].isin(self.validated_countries)].sample()
@@ -90,7 +92,7 @@ class Quiz():
             result = result_query(self.corpus[sample]['query'],self.current_country_id)
             if(not result is None):
                 finding_question = False
-            self.possible_question.remove(sample)
+            self.potential_question.remove(sample)
         # Case where no question is found
         if(result is None):
             print(f"Je n'ai pas de question pour {self.current_country_name}")
@@ -101,7 +103,11 @@ class Quiz():
             # Numerical case
             if(self.corpus[sample]['answer_type'] in [int,float]):
                 # Answer is valid
-                if(abs(float(answer)-float(result)) <= float(result)*self.corpus[sample]['error_ratio']):
+                convert = True
+                try: 
+                    float(answer)
+                except ValueError : convert = False
+                if(convert and abs(float(answer)-float(result)) <= float(result)*self.corpus[sample]['error_ratio']):
                     self.points = POINT_QUESTION
                     print("Bonne réponse ! La réponse exacte était " + result )
                 # Answer is wrong
