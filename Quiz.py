@@ -22,10 +22,16 @@ init_country : french name of the initiale country
 corpus : Dictionnary of questions (check the example in sparQL_query.py)
 """
 class Quiz():
-    def __init__(self,init_country,corpus = {}):
+    def __init__(self,init_country = None,corpus = {}):
+        if(init_country is None):
+            sample = DATAFRAME_COUNTRIES.sample()
+            self.current_country_name = sample.iloc[0]['country_name']
+            self.current_country_id = sample.index[0]
+        else:
+            self.current_country_name = init_country
+            self.current_country_id = DATAFRAME_COUNTRIES[DATAFRAME_COUNTRIES['country_name'] == init_country].index[0]
         self.points = 0
-        self.current_country_name = init_country
-        self.current_country_id = DATAFRAME_COUNTRIES[DATAFRAME_COUNTRIES['country_name'] == init_country].index[0]
+        
         self.corpus = corpus
         self.validated_countries = []
         self.lost = False
