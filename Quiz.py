@@ -8,7 +8,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 import pandas as pd
 import json
 from sparQL_query import import_neighbors_dataframe,import_countries_dataframe, result_query
-from difflib import SequenceMatcher
+from difflib import SequenceMatcher, get_close_matches
 import random
 
 DATAFRAME_COUNTRIES = import_countries_dataframe()
@@ -55,46 +55,44 @@ class Quiz():
                 retry = False
                 # user type a neighbor country or not
                 answer = input(f'Donnez un pays voisin de {self.current_country_name} : ')
-                i_max = 0
-                ratio = 0
                 # Compute distances between answer and potential neighbor names
-                for i in range(len(neighbors)):
-                    cal_ratio = SequenceMatcher(None,answer,neighbors.iloc[i]['country_name']).ratio()
-                    if(ratio < cal_ratio):
-                        ratio = cal_ratio
-                        i_max = i
-                # Case where answer is validated but already yet, the user has a new chance
-                if(ratio >= THRESHOLD_SIMILARITY and neighbors.iloc[i_max]['country_name'] in self.validated_countries):
-                    print('Oui mais non... Vous avez déjà parcouru '+ neighbors.iloc[i_max]['country_name'] + '. Réessayez...')
-                    retry = True
-                # Case where answer is accepted
-                elif(ratio >= THRESHOLD_SIMILARITY):
-                    self.points += POINT_NEIGHBOR
-                    print('Bravo! ' + neighbors.iloc[i_max]['country_name'] + ' est bien un voisin de ' + self.current_country_name)
-                    self.current_country_id = neighbors.index[i_max]
-                    self.current_country_name = neighbors.iloc[i_max]['country_name']
-                    self.potential_question = set(range(len(self.corpus)))
+                neighbors_list = list(neighbors['country_name'])
+                match = get_close_matches(answer,neighbors_list,cutoff = THRESHOLD_SIMILARITY)
+                
+                # Case where answer is validated
+                if(len(match)>0):
+                    #  but already used, the user has a new chance
+                    if(match[0] in self.validated_countries):
+                       print('Oui mais non... Vous avez déjà parcouru '+ match[0] + '. Réessayez...')
+                       retry = True 
+                    # Case where answer is accepted
+                    else:
+                        self.points += POINT_NEIGHBOR
+                        print('Bravo! ' + match[0] + ' est bien un voisin de ' + self.current_country_name)
+                        self.current_country_id = neighbors.index[neighbors_list.index(match[0])]
+                        self.current_country_name = match[0]
+                        self.potential_question = set(range(len(self.corpus)))
                 # Case where answer is wrong
                 else:
                     self.lost = True
                     print('FAUX! Les voisins non parcourus étaient les suivants : ')
-                    print( *list(neighbors['country_name']), sep=', ')
+                    print( *list(neighbors_kept['country_name']), sep=', ')
         return self.lost
     """
     next_question : protocole to ask a new question about the current country
     """
     def next_question(self):
         finding_question = True
-        result = None
+        results = None
         # Iterate until a valid question is found
         while(finding_question and len(self.potential_question) > 0):
             sample = random.sample(self.potential_question,1)[0]
-            result = result_query(self.corpus[sample]['query'],self.current_country_id)
-            if(not result is None):
+            results = result_query(self.corpus[sample]['query'],self.current_country_id)
+            if(not results is None):
                 finding_question = False
             self.potential_question.remove(sample)
         # Case where no question is found
-        if(result is None):
+        if(results is None):
             print(f"Je n'ai pas de question pour {self.current_country_name}")
         # Case where a question is found
         else:
@@ -107,22 +105,23 @@ class Quiz():
                 try: 
                     float(answer)
                 except ValueError : convert = False
-                if(convert and abs(float(answer)-float(result)) <= float(result)*self.corpus[sample]['error_ratio']):
+                if(convert and abs(float(answer)-float(results[0])) <= float(results[0])*self.corpus[sample]['error_ratio']):
                     self.points = POINT_QUESTION
-                    print("Bonne réponse ! La réponse exacte était " + result )
+                    print("Bonne réponse ! La réponse exacte était " + results[0] )
                 # Answer is wrong
                 else:
                     self.lost = True
-                    print("Mauvaise réponse... La réponse exacte était " + result)
+                    print("Mauvaise réponse... La réponse exacte était " + results[0])
             # String case
             elif(self.corpus[sample]['answer_type'] is str):
+                match = get_close_matches(answer,results,cutoff = THRESHOLD_SIMILARITY)
                 # Answer is valid
-                if(SequenceMatcher(None,answer,result).ratio() >= THRESHOLD_SIMILARITY ):
-                    print("Bonne réponse ! c'était bien " + result )
+                if(len(match) >= 1 ):
+                    print("Bonne réponse ! c'était bien " + match[0])
                 # Answer is wrong
                 else:
                     self.lost = True
-                    print("Mauvaise réponse... c'était " + result)
+                    print("Mauvaise réponse... c'était " + ', '.join(results))
         return self.lost
                 
                 

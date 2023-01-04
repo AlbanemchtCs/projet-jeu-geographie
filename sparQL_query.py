@@ -68,10 +68,10 @@ def result_query(query,country_id):
     if(result == []):
         return None
     else:
-        return result[0][list(result[0].keys())[0]]['value']
+        return [r[list(result[0].keys())[0]]['value'] for r in result]
 
 
-Question_corpus = {0 : {'question' : "Combien il y a t-il t'habitant en/au {}?",
+Question_corpus = {0 : {'question' : "Combien il y a t-il t'habitant en/au {}? (+/-10%)",
                         'answer_type' : int,
                         'error_ratio' : 0.1,
                         'query' : 
@@ -84,9 +84,63 @@ Question_corpus = {0 : {'question' : "Combien il y a t-il t'habitant en/au {}?",
                    1 : {'question' : "Quelle est la capitale de {}?",
                         'answer_type' : str,
                         'query' : 
-                            """SELECT DISTINCT ?xLabel 
+                            """SELECT DISTINCT ?capitalLabel 
                             WHERE {{
-                                wd:{} wdt:P36 ?x.
+                                wd:{} wdt:P36 ?capital.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
+                            """},
+                    2: {'question' : "Quelle est la monnaie utilisé en {}?",
+                        'answer_type' : str,
+                        'query':
+                            """SELECT DISTINCT ?currencyLabel 
+                            WHERE {{
+                                wd:{} wdt:P38 ?currency.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
+                            """},
+                    3: {'question' : "Les voitures roulent à gauche ou à droite en {}?",
+                        'answer_type' : str,
+                        'query':
+                            """SELECT DISTINCT ?currencyLabel 
+                            WHERE {{
+                                wd:{} wdt:P1622 ?currency.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
+                            """},
+                    4: {'question' : "Quelle est la langue officielle en {}?",
+                        'answer_type' : str,
+                        'query':
+                            """SELECT DISTINCT ?languageLabel 
+                            WHERE {{
+                                wd:{} wdt:P37 ?language.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
+                            """},
+                    5: {'question' : "Qui est le chef de l'état de {}?",
+                        'answer_type' : str,
+                        'query':
+                            """SELECT DISTINCT ?titreLabel 
+                            WHERE {{
+                                wd:{} wdt:P35 ?titre.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
+                            """},
+                    6: {'question' : "Quel est le continent de {}?",
+                        'answer_type' : str,
+                        'query':
+                            """SELECT DISTINCT ?continentLabel 
+                            WHERE {{
+                                wd:{} wdt:P30 ?continent.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
+                            """},
+                    7: {'question' : "Quel régime politique de {}?",
+                        'answer_type' : str,
+                        'query':
+                            """SELECT DISTINCT ?regimeLabel 
+                            WHERE {{
+                                wd:{} wdt:P122 ?regime.
                                 SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
                                 }}
                             """}
