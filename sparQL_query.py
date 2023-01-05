@@ -143,6 +143,16 @@ Question_corpus = {0 : {'question' : "Combien il y a t-il t'habitant en/au {}? (
                                 wd:{} wdt:P122 ?regime.
                                 SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
                                 }}
+                            """},
+                    8: {'question' : "Quel est l'âge de la majorité en {}?",
+                        'answer_type' : int,
+                        'error_ratio' : 0,
+                        'query':
+                            """SELECT DISTINCT ?age 
+                            WHERE {{
+                                wd:{} wdt:P2997 ?age.
+                                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "fr" }}
+                                }}
                             """}
                         
                         }
