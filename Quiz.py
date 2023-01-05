@@ -55,6 +55,7 @@ class Quiz():
             self.current_country_id = sample.index[0]
             self.current_country_name = sample.iloc[0]['country_name']
             print('Il y a pas de voisin potentiel, vous êtes téléporté vers '+ self.current_country_name+'.... ')
+            return None
         else:
             retry = True
             while(retry):
@@ -78,12 +79,13 @@ class Quiz():
                         self.current_country_id = neighbors.index[neighbors_list.index(match[0])]
                         self.current_country_name = match[0]
                         self.potential_question = set(range(len(self.corpus)))
+                        return True
                 # Case where answer is wrong
                 else:
                     self.lost = True
                     print('FAUX! Les voisins non parcourus étaient les suivants : ')
                     print( *list(neighbors_kept['country_name']), sep=', ')
-        return self.lost
+                    return False
     """
     next_question : protocole to ask a new question about the current country
     """
@@ -100,6 +102,7 @@ class Quiz():
         # Case where no question is found
         if(results is None):
             print(f"Je n'ai pas de question pour {self.current_country_name}")
+            return None
         # Case where a question is found
         else:
             # Ask a question about the current country
@@ -114,20 +117,23 @@ class Quiz():
                 if(convert and abs(float(answer)-float(results[0])) <= float(results[0])*self.corpus[sample]['error_ratio']):
                     self.points = POINT_QUESTION
                     print("Bonne réponse ! La réponse exacte était " + results[0] )
+                    return True
                 # Answer is wrong
                 else:
                     self.lost = True
                     print("Mauvaise réponse... La réponse exacte était " + results[0])
+                    return False
             # String case
             elif(self.corpus[sample]['answer_type'] is str):
                 match = get_close_matches(answer,results,cutoff = THRESHOLD_SIMILARITY)
                 # Answer is valid
                 if(len(match) >= 1 ):
                     print("Bonne réponse ! c'était bien " + match[0])
+                    return True
                 # Answer is wrong
                 else:
                     self.lost = True
                     print("Mauvaise réponse... c'était " + ', '.join(results))
-        return self.lost
+                    return False
                 
                 
