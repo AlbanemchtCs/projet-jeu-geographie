@@ -2,7 +2,7 @@
 
 ## Getting started
 
-First, make sure you have `python` installed. You will need to install all the `requirements` using the following command:
+First, make sure you have a `python` version higher than 3.9. installed. You will need to install all the `requirements` using the following command:
 
 -   `pip install -r requirements.txt`
 
