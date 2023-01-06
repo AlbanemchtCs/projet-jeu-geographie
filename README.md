@@ -15,7 +15,7 @@ La question 1 vaut un point, tandis que la question 2 vaut deux points. S'il ne 
 
 Astuce : réfléchissez-bien au pays limitrophe que vous choisissez, certains pays n'ont pas beaucoup de voisins !
 
-## :puzzle_piece: Segmentation
+## :card_index_dividers: Segmentation
 Notre répertoire est segmenté en quatre fichiers python, deux fichiers markdown, un fichier .gitinore et un fichier texte pour les requirements :
 
 ```bash 
