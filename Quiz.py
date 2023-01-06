@@ -74,7 +74,6 @@ class Quiz():
                     # Case where answer is accepted
                     else:
                         #Add the last country
-                        self.validated_countries += [self.current_country_name]
                         self.points += POINT_NEIGHBOR
                         print('Bravo! ' + match[0] + ' est bien un voisin de ' + self.current_country_name)
                         self.current_country_id = neighbors.index[neighbors_list.index(match[0])]
@@ -118,6 +117,8 @@ class Quiz():
                 if(convert and abs(float(answer)-float(results[0])) <= float(results[0])*self.corpus[sample]['error_ratio']):
                     self.points = POINT_QUESTION
                     print("Bonne réponse ! La réponse exacte était " + results[0] )
+                    if(not self.current_country_name in self.validated_countries):
+                        self.validated_countries += [self.current_country_name]
                     return True
                 # Answer is wrong
                 else:
@@ -130,6 +131,8 @@ class Quiz():
                 # Answer is valid
                 if(len(match) >= 1 ):
                     print("Bonne réponse ! c'était bien " + match[0])
+                    if(not self.current_country_name in self.validated_countries):
+                        self.validated_countries += [self.current_country_name]
                     return True
                 # Answer is wrong
                 else:
