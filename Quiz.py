@@ -40,8 +40,7 @@ class Quiz():
     next_country : protocole to select a new country
     """
     def next_country(self):
-        #Add the last country
-        self.validated_countries += [self.current_country_name]
+        
         
         #Ask current country's neighbors
         neighbors = import_neighbors_dataframe(self.current_country_id)
@@ -74,6 +73,8 @@ class Quiz():
                        retry = True 
                     # Case where answer is accepted
                     else:
+                        #Add the last country
+                        self.validated_countries += [self.current_country_name]
                         self.points += POINT_NEIGHBOR
                         print('Bravo! ' + match[0] + ' est bien un voisin de ' + self.current_country_name)
                         self.current_country_id = neighbors.index[neighbors_list.index(match[0])]
