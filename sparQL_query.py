@@ -17,22 +17,34 @@ sparql.setReturnFormat(JSON)
 import_countries_dataframe : get IDs and names of all valid countries
 """
 def import_countries_dataframe():
-    query_countries = """SELECT DISTINCT ?countryLabel ?country
+    query_countries = """
+    SELECT ?country ?countryLabel ?nb
+    WHERE{
+        {
+    SELECT DISTINCT ?country (COUNT(?neighbor) as ?nb)
     WHERE
     {
+     
      ?country wdt:P31 wd:Q3624078.
+     ?country wdt:P47 ?neighbor.
+     ?neighbor wdt:P31 wd:Q3624078.
      #not a former country
      FILTER NOT EXISTS {?country wdt:P31 wd:Q3024240}
      #and no an ancient civilisation (needed to exclude ancient Egypt)
      FILTER NOT EXISTS {?country wdt:P31 wd:Q28171280}
      
-     SERVICE wikibase:label { bd:serviceParam wikibase:language "fr" }
      }
-    ORDER BY ?countryLabel"""
+    GROUP BY ?country
+    }
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "fr" }
+    }
+    
+    """
     sparql.setQuery(query_countries)
     
     result= sparql.queryAndConvert()['results']['bindings']
-    return pd.DataFrame([{"id" : elem['country']['value'].split('/')[-1],"country_name" : elem['countryLabel']['value']} for elem in result]).drop(0).set_index('id')
+    data = pd.DataFrame([{"id" : elem['country']['value'].split('/')[-1],"country_name" : elem['countryLabel']['value'],"neighbor" : int(elem['nb']['value'].split('/')[-1])} for elem in result]).drop(0).set_index('id')
+    return data
 
 """
 import_neighbors_dataframe : get IDs and names of all neighbor countries

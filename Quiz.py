@@ -24,7 +24,7 @@ corpus : Dictionnary of questions (check the example in sparQL_query.py)
 class Quiz():
     def __init__(self,init_country = None,corpus = {}):
         if(init_country is None):
-            sample = DATAFRAME_COUNTRIES.sample()
+            sample = DATAFRAME_COUNTRIES[DATAFRAME_COUNTRIES['neighbor'] > 0].sample()
             self.current_country_name = sample.iloc[0]['country_name']
             self.current_country_id = sample.index[0]
         else:
@@ -115,7 +115,7 @@ class Quiz():
                     float(answer)
                 except ValueError : convert = False
                 if(convert and abs(float(answer)-float(results[0])) <= float(results[0])*self.corpus[sample]['error_ratio']):
-                    self.points = POINT_QUESTION
+                    self.points += POINT_QUESTION
                     print("Bonne réponse ! La réponse exacte était " + results[0] )
                     
                     return True
@@ -129,6 +129,7 @@ class Quiz():
                 match = get_close_matches(answer,results,cutoff = THRESHOLD_SIMILARITY)
                 # Answer is valid
                 if(len(match) >= 1 ):
+                    self.points += POINT_QUESTION
                     print("Bonne réponse ! c'était bien " + match[0])
                     return True
                 # Answer is wrong
