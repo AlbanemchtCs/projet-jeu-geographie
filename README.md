@@ -55,6 +55,8 @@ Nous avons sélectionné deux cas de pays qui posent problème s'ils sont tirés
 
 Lorsqu'en début de partie, un joueur tombe sur un pays se situant dans l'un de ces deux cas, le joueur est transféré dans un autre pays pour ne pas être désavantagé.
 
+Lors des manches suivantes, si l'un des joueurs a choisi comme pays limitrophe, un pays qui se trouve dans l'un de ces deux cas, le joueur est transféré dans un autre pays, et devra attendre la manche suivante pour pouvoir jouer. Le joueur doit bien réfléchir aux pays limitrophes qu'il choisit pour ne pas perdre de points. 
+
 ## :pencil2: Auteurs
 - MICHOT Albane
 - NONCLERCQ Rodolphe
