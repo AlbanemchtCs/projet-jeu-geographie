@@ -117,8 +117,7 @@ class Quiz():
                 if(convert and abs(float(answer)-float(results[0])) <= float(results[0])*self.corpus[sample]['error_ratio']):
                     self.points = POINT_QUESTION
                     print("Bonne réponse ! La réponse exacte était " + results[0] )
-                    if(not self.current_country_name in self.validated_countries):
-                        self.validated_countries += [self.current_country_name]
+                    
                     return True
                 # Answer is wrong
                 else:
@@ -131,13 +130,18 @@ class Quiz():
                 # Answer is valid
                 if(len(match) >= 1 ):
                     print("Bonne réponse ! c'était bien " + match[0])
-                    if(not self.current_country_name in self.validated_countries):
-                        self.validated_countries += [self.current_country_name]
                     return True
                 # Answer is wrong
                 else:
                     self.lost = True
                     print("Mauvaise réponse... c'était " + ', '.join(results))
                     return False
+    
+    def validate_current_country(self):
+        if(not self.current_country_name in self.validated_countries):
+            self.validated_countries += [self.current_country_name]
+            return True
+        else:
+            return False
                 
                 
