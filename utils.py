@@ -68,13 +68,13 @@ rounds : returns the number of rounds
 """
 def rounds():
     # Choice of the number of rounds
-    userInput = input("\nCombien de tour(s) voulez-vous jouer [1/2/3/4/5] ? ")
+    userInput = input("\nCombien de tour(s) voulez-vous jouer ? ")
 
-    while userInput not in ["1","2","3","4","5"]:
+    while userInput.isdigit() == False or userInput == "0":
         os.system("cls" if os.name == "nt" else "clear")
         time.sleep(1)
-        print_typing("\nVeuillez choisir un nombre compris entre 1 et 5 !\n")
-        userInput = input("\nCombien de tour(s) voulez-vous jouer [1/2/3/4/5] ? ")
+        print_typing("\nVeuillez choisir un nombre entier positif !\n")
+        userInput = input("\nCombien de tour(s) voulez-vous jouer ? ")
         time.sleep(1)
 
     rds_number = int(userInput)
@@ -86,13 +86,13 @@ nicknames : returns the number of players and their nicknames
 def nicknames():
     # Choice of the number of players
     os.system("cls" if os.name == "nt" else "clear")
-    userInput = input("\nCombien de joueurs participent [2/3/4/5] ? ")
+    userInput = input("\nCombien de joueur(s) participe(nt) ? ")
     
-    while userInput not in ["2","3","4","5"]:
+    while userInput.isdigit() == False or userInput == "0":
         os.system("cls" if os.name == "nt" else "clear")
         time.sleep(1)
-        print_typing("\nVeuillez choisir un nombre compris entre 2 et 5 !\n")
-        userInput = input("\nCombien de joueurs participent [2/3/4/5] ? ")
+        print_typing("\nVeuillez choisir un nombre entier positif !\n")
+        userInput = input("\nCombien de joueur(s) participe(nt) ? ")
         time.sleep(1)
 
     players_nbr = int(userInput)
@@ -118,14 +118,14 @@ def nicknames():
 """
 space : returns a string containing a greater or lesser number of spaces
 """
-def space(str):
-    if str == 'small':
+def space(string):
+    if string == 'small':
         space_lenght = ' '*45
-    elif str == 'medium':
+    elif string == 'medium':
         space_lenght = ' '*50
-    elif str == 'large':
+    elif string == 'large':
         space_lenght = ' '*55
-    elif str == 'very_large':
+    elif string == 'very_large':
         space_lenght = ' '*58
     return space_lenght
 
@@ -152,9 +152,14 @@ def final_result(pseudos_players, Quiz):
 
     # The winner is determined by the one with the highest score
     time.sleep(2.5)
-    if maximum > 0:
-        winner_result = ", ".join(winner)
-        print_typing("\n".join([f"{winner_result} gagne(nt) la partie, bravo !\n"]))
+    if len(pseudos_players)>1:
+        if maximum > 0:
+            winner_result = ", ".join(winner)
+            print_typing("\n".join([f"{winner_result} gagne(nt) la partie, bravo !\n"]))
+        else:
+            print_typing("\nDommage, personne n'a gagné !\n")
     else:
-        print_typing("\nDommage, personne n'a gagné !\n")
-        
+        if maximum > 0:
+            print_typing("\nTente de parcourir encore plus de pays en rejouant !\n")
+        else: 
+            print_typing("\nDommage, essaye d'améliorer ton score en rejouant !\n")
