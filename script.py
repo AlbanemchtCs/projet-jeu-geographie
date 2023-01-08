@@ -131,6 +131,7 @@ for i in range(1, rounds_nbr +1):
 
         # If question 1 is correct, question 2 is asked
         if Q[j].next_country():
+            Q[j].validate_current_country()
             time.sleep(2.5)
             os.system("cls" if os.name == "nt" else "clear")
             print(f"\nJoueur {j}")
