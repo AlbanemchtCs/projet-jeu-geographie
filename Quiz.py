@@ -138,6 +138,9 @@ class Quiz():
                     print("Mauvaise réponse... c'était " + ', '.join(results))
                     return False
     
+    """
+    validate_current_country : protocole to have countries visited
+    """
     def validate_current_country(self):
         if(not self.current_country_name in self.validated_countries):
             self.validated_countries += [self.current_country_name]
