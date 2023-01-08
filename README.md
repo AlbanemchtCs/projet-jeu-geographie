@@ -42,11 +42,24 @@ Notre répertoire est segmenté en quatre fichiers python, deux fichiers markdow
 ## :wrench: Installation
 Pour jouer au jeu de gégographie :
 
-1. Tout d'abord, assurez-vous que vous avez installé une version `python` supérieure à 3.9. Vous devez ensuite installer tous les `requirements` en utilisant la commande suivante :
--   `pip install -r requirements.txt`
+1. Tout d'abord, assurez-vous que vous avez installé une version `python` supérieure à 3.9. Nous vous conseillons un environnement conda avec la commande suivante : 
+```bash
+conda create --name jeu_geographie python=3.9`
+```
+- Pour activer l'environnement :
+```bash
+conda activate jeu_geographie
+```
 
-2. Exécuter l'interface du jeu en utilisant la commande suivante :
- -   `python3 script.py`
+2. Vous devez ensuite installer tous les `requirements` en utilisant la commande suivante :
+```bash
+pip install -r requirements.txt
+```
+
+3. Exécuter l'interface du jeu en utilisant la commande suivante :
+```bash
+python script.py
+```
 
 ## :thinking_face: Choix
 Nous avons sélectionné deux cas de pays qui posent problème s'ils sont tirés comme pays initial en début de partie :
