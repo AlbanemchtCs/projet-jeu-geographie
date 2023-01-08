@@ -40,7 +40,7 @@ Notre répertoire est segmenté en quatre fichiers python, deux fichiers markdow
 - ``utils.py`` contient l'ensemble des fonctions nécessaires pour l'interface du jeu implémenté sur le fichier ``script.py``.
 
 ## :wrench: Installation
-Pour jouer au jeu de gégographie :
+Pour jouer au jeu de gégographie, nous vous recommandons sur un terminal uniquement :
 
 1. Tout d'abord, assurez-vous que vous avez installé une version `python` supérieure à 3.9. Nous vous conseillons un environnement conda avec la commande suivante : 
 ```bash
