@@ -44,7 +44,7 @@ Pour jouer au jeu de gégographie :
 
 1. Tout d'abord, assurez-vous que vous avez installé une version `python` supérieure à 3.9. Nous vous conseillons un environnement conda avec la commande suivante : 
 ```bash
-conda create --name jeu_geographie python=3.9`
+conda create --name jeu_geographie python=3.9
 ```
 - Pour activer l'environnement :
 ```bash
