@@ -50,6 +50,10 @@ conda create --name jeu_geographie python=3.9
 ```bash
 conda activate jeu_geographie
 ```
+- Pour accéder au répertoire : 
+```bash
+cd projet-jeu-geographie
+```
 
 2. Vous devez ensuite installer tous les `requirements` en utilisant la commande suivante :
 ```bash
@@ -62,16 +66,13 @@ python3 script.py
 ```
 
 ## :thinking_face: Choix
-Nous avons sélectionné deux cas de pays qui posent problème s'ils sont tirés comme pays initial en début de partie :
+Nous avons sélectionné quatre cas de pays qui posent problème s'ils sont tirés comme pays initial en début de partie :
 1. Les pays ayant aucun pays limitrophe. 
 2. Les anciens pays.
 3. Les anciennes civilisations comme l'Égypte antique.
 4. Les îles. Wikidata considèrent sur certaines îles, des pays limitrophes. 
-Pour l'ensemble de ces quatre cas, nous avons fait le choix de ne pas les prendre en compte afin de rester rationnel. 
-
-Lorsqu'en début de partie, un joueur tombe sur un pays se situant dans l'un de ces quatre cas, le joueur est transféré automatiquement dans un autre pays avec au moins un pays limitrophe pour ne pas être désavantagé.
-
-
+Pour l'ensemble de ces quatre cas, nous avons fait le choix de ne pas les prendre en compte. Nous nous restreignons pour le jeu à l'ensemble des pays qui ne sont pas dans l'un de ces quatre cas.
+ 
 Un bon joueur doit bien réfléchir aux pays limitrophes qu'il choisit pour ne pas perdre de points. En effet, si un joueur se retrouve bloqué dans un pays lors des manches qui suivent la première manche, (ex: il désigne Portugal comme pays limitrophe de l'Espagne lors de la première manche, il n'a malheureusement plus de possibilités de pays voisins pour le Portugal lors de la seconde manche), le joueur est téléporté dans un autre pays, et devra attendre la manche suivante pour pouvoir jouer.
 
 ## :pencil2: Auteurs
