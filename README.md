@@ -58,17 +58,21 @@ pip install -r requirements.txt
 
 3. Exécuter l'interface du jeu en utilisant la commande suivante :
 ```bash
-python script.py
+python3 script.py
 ```
 
 ## :thinking_face: Choix
 Nous avons sélectionné deux cas de pays qui posent problème s'ils sont tirés comme pays initial en début de partie :
-1. Les pays ayant aucun pays limitrophe
-2. Les îles. Wikidata considèrent sur certaines îles, des pays limitrophes. Néanmoins, nous avons fait le choix de ne pas prendre en compte les îles afin de rester rationnel.
+1. Les pays ayant aucun pays limitrophe. 
+2. Les anciens pays.
+3. Les anciennes civilisations comme l'Égypte antique.
+4. Les îles. Wikidata considèrent sur certaines îles, des pays limitrophes. 
+Pour l'ensemble de ces quatre cas, nous avons fait le choix de ne pas les prendre en compte afin de rester rationnel. 
 
-Lorsqu'en début de partie, un joueur tombe sur un pays se situant dans l'un de ces deux cas, le joueur est transféré dans un autre pays pour ne pas être désavantagé.
+Lorsqu'en début de partie, un joueur tombe sur un pays se situant dans l'un de ces quatre cas, le joueur est transféré automatiquement dans un autre pays avec au moins un pays limitrophe pour ne pas être désavantagé.
 
-Lors des manches suivantes, si l'un des joueurs a choisi comme pays limitrophe, un pays qui se trouve dans l'un de ces deux cas, le joueur est transféré dans un autre pays, et devra attendre la manche suivante pour pouvoir jouer. Le joueur doit bien réfléchir aux pays limitrophes qu'il choisit pour ne pas perdre de points. 
+
+Un bon joueur doit bien réfléchir aux pays limitrophes qu'il choisit pour ne pas perdre de points. En effet, si un joueur se retrouve bloqué dans un pays lors des manches qui suivent la première manche, (ex: il désigne Portugal comme pays limitrophe de l'Espagne lors de la première manche, il n'a malheureusement plus de possibilités de pays voisins pour le Portugal lors de la seconde manche), le joueur est téléporté dans un autre pays, et devra attendre la manche suivante pour pouvoir jouer.
 
 ## :pencil2: Auteurs
 - MICHOT Albane
