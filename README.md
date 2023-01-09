@@ -66,7 +66,7 @@ python3 script.py
 ```
 
 ## :thinking_face: Choix
-Nous avons sélectionné quatre cas de pays qui posent problème s'ils sont tirés comme pays initial en début de partie :
+Nous avons sélectionné quatre cas de pays qui posent problème s'ils sont tirés comme pays initial en début de partie ou comme pays voisin lors des manches suivantes :
 1. Les pays ayant aucun pays limitrophe. 
 2. Les anciens pays.
 3. Les anciennes civilisations comme l'Égypte antique.
