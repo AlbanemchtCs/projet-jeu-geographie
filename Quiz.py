@@ -59,7 +59,7 @@ class Quiz():
                 self.validated_countries)].sample()
             self.current_country_id = sample.index[0]
             self.current_country_name = sample.iloc[0]['country_name']
-            print('Il y a pas de voisin potentiel, vous êtes téléporté vers ' +
+            print("Il n'y a pas de voisin potentiel, vous êtes téléportés vers " +
                   self.current_country_name+'.... ')
             return None
         else:

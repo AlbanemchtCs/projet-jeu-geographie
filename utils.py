@@ -9,7 +9,7 @@ import os
 import sys
 import random
 import time
-
+import numpy as np
 """
 utils : python file containing all the useful functions for the script
 """
@@ -151,13 +151,7 @@ def space(string):
 final_result : displays the final scores and compares them to give the final winner
 """
 
-
 def final_result(pseudos_players, Quiz):
-    winner_score = []
-    winner_countries = []
-    maximum_score = 0
-    maximum_countries = []
-
     # The scores are displayed and compared to determine the winner
     for j in pseudos_players:
         countries_visited = ", ".join(Quiz[j].validated_countries[1:])
@@ -169,44 +163,41 @@ def final_result(pseudos_players, Quiz):
             print_typing(
                 "\n".join([f"{j} : {Quiz[j].points}, n'a rien parcouru.\n"]))
 
-        # Determine the player with the highest score
-        if Quiz[j].points > maximum_score and Quiz[j].points != 0:
-            winner_score.append(j)
-            maximum_score = Quiz[j].points
-
-        # Determine the player with the highest number of countries visited
-        if len(countries_visited) > len(maximum_countries) and len(countries_visited) != 0:
-            winner_countries.append(j)
-            maximum_countries = countries_visited
+        
 
     # The winner is determined by the one with the highest score and highest number of countries visited
     # If there is a player who has the highest score and another who has the highest number of countries visited, we have two winners
     time.sleep(2.5)
-    if len(pseudos_players) > 1:
-        if maximum_score > 0:
-            if winner_score == winner_countries:
-                winner_result = ", ".join(winner_score)
-                print_typing(
-                    "\n".join([f"\n{winner_result} gagne(nt) la partie, bravo !\n"]))
-            elif winner_score != winner_countries:
-                for k in winner_score:
-                    for l in winner_countries:
-                        if(k == l):
-                            print_typing(
-                                "\n".join([f"\n{k} gagne(nt) la partie, bravo !\n"]))
+    # Mutliplayer mode
+    if(len(pseudos_players) > 1):
+        points = [Quiz[name].points for name in pseudos_players]
+        countries = [len(Quiz[name].validated_countries)-1 for name in pseudos_players]
+        max_points = max(points)
+        if(max_points > 0):
+            max_countries = max(countries)
+            set_max_points = set()
+            set_max_countries = set()
+            # build set of score winners and country winners
+            for i in range(len(Quiz)):
+                if(points[i] == max_points):
+                    set_max_points.add(pseudos_players[i])
+                if(countries[i] == max_countries):
+                    set_max_countries.add(pseudos_players[i])
+            # intersection between score winners and country winners = Winner
+            Winner = set_max_countries.intersection(set_max_points)
+            # Great winners case
+            if(len(Winner) > 0):
+                print_typing(', '.join(Winner)  + " gagne(nt) la partie, bravo !\n")
+            # no absolute winner
             else:
-                winner_score_result = ", ".join(winner_score)
-                print_typing(
-                    "\n".join([f"\n{winner_score_result} a/ont eu le meilleur score !\n"]))
-                winner_countries_result = ", ".join(winner_countries)
-                print_typing(
-                    "\n".join([f"{winner_countries_result} a/ont parcouru le plus de pays !\n"]))
+                print_typing(', '.join(set_max_points) + " a/ont eu le meilleur score !\n")
+                print_typing(', '.join(set_max_countries) + " a/ont parcouru le plus de pays !\n")
         else:
             print_typing("\nDommage, personne n'a gagné !\n")
+    # Singleplayer mode
     else:
-        if maximum_score > 0:
-            print_typing(
-                "\nTente de parcourir encore plus de pays et d'améliorer ton score en rejouant !\n")
+        if max_points > 0:
+            print_typing("\nTente de parcourir encore plus de pays et d'améliorer ton score en rejouant !\n")
         else:
-            print_typing(
-                "\nDommage, essaye d'améliorer ton score en rejouant !\n")
+            print_typing("\nDommage, essaye d'améliorer ton score en rejouant !\n")
+
