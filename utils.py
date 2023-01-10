@@ -196,7 +196,7 @@ def final_result(pseudos_players, Quiz):
             print_typing("\nDommage, personne n'a gagné !\n")
     # Singleplayer mode
     else:
-        if max_points > 0:
+        if Quiz[pseudos_players[0]].points > 0:
             print_typing("\nTente de parcourir encore plus de pays et d'améliorer ton score en rejouant !\n")
         else:
             print_typing("\nDommage, essaye d'améliorer ton score en rejouant !\n")
