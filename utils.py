@@ -153,9 +153,10 @@ final_result : displays the final scores and compares them to give the final win
 
 
 def final_result(pseudos_players, Quiz):
-
-    winner = []
-    maximum = 0
+    winner_score = []
+    winner_countries = []
+    maximum_score = 0
+    maximum_countries = []
 
     # The scores are displayed and compared to determine the winner
     for j in pseudos_players:
@@ -168,23 +169,44 @@ def final_result(pseudos_players, Quiz):
             print_typing(
                 "\n".join([f"{j} : {Quiz[j].points}, n'a rien parcouru.\n"]))
 
-        if Quiz[j].points > maximum and Quiz[j].points != 0:
-            winner.append(j)
-            maximum = Quiz[j].points
+        # Determine the player with the highest score
+        if Quiz[j].points > maximum_score and Quiz[j].points != 0:
+            winner_score.append(j)
+            maximum_score = Quiz[j].points
 
-    # The winner is determined by the one with the highest score
+        # Determine the player with the highest number of countries visited
+        if len(countries_visited) > len(maximum_countries) and len(countries_visited) != 0:
+            winner_countries.append(j)
+            maximum_countries = countries_visited
+
+    # The winner is determined by the one with the highest score and highest number of countries visited
+    # If there is a player who has the highest score and another who has the highest number of countries visited, we have two winners
     time.sleep(2.5)
     if len(pseudos_players) > 1:
-        if maximum > 0:
-            winner_result = ", ".join(winner)
-            print_typing(
-                "\n".join([f"{winner_result} gagne(nt) la partie, bravo !\n"]))
+        if maximum_score > 0:
+            if winner_score == winner_countries:
+                winner_result = ", ".join(winner_score)
+                print_typing(
+                    "\n".join([f"\n{winner_result} gagne(nt) la partie, bravo !\n"]))
+            elif winner_score != winner_countries:
+                for k in winner_score:
+                    for l in winner_countries:
+                        if(k == l):
+                            print_typing(
+                                "\n".join([f"\n{k} gagne(nt) la partie, bravo !\n"]))
+            else:
+                winner_score_result = ", ".join(winner_score)
+                print_typing(
+                    "\n".join([f"\n{winner_score_result} a/ont eu le meilleur score !\n"]))
+                winner_countries_result = ", ".join(winner_countries)
+                print_typing(
+                    "\n".join([f"{winner_countries_result} a/ont parcouru le plus de pays !\n"]))
         else:
             print_typing("\nDommage, personne n'a gagné !\n")
     else:
-        if maximum > 0:
+        if maximum_score > 0:
             print_typing(
-                "\nTente de parcourir encore plus de pays en rejouant !\n")
+                "\nTente de parcourir encore plus de pays et d'améliorer ton score en rejouant !\n")
         else:
             print_typing(
                 "\nDommage, essaye d'améliorer ton score en rejouant !\n")
